@@ -2,18 +2,13 @@ import hashlib
 import json
 from time import time
 from uuid import uuid4
-​
-from flask import Flask, jsonify, request
-​
-​
+from flask import Flask, jsonify, request​
 class Blockchain(object):
     def __init__(self):
         self.chain = []
         self.current_transactions = []
-​
         # Create the genesis block
         self.new_block(previous_hash="I'm a teapot.", proof=100)
-​
     def new_block(self, proof, previous_hash=None):
         """
         Create a new Block in the Blockchain
@@ -90,7 +85,7 @@ class Blockchain(object):
         in an effort to find a number that is a valid proof
         :return: A valid proof for the provided block
         """
-        
+
         block_string = json.dumps(block, sort_keys=True)
         proof = 0
         while self.valid_proof(block_string, proof) is False:
