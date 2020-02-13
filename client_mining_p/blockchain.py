@@ -103,15 +103,37 @@ print(blockchain.chain)
 print(blockchain.hash(blockchain.last_block))
 
 @app.route('/mine', methods=['POST'])
-def mine(proof):
+def mine(self):
     
     data = request.get_json()
+    # TODO: validate data to be a valid hash
+    proof = data.proof
+    last_block = return_last_block()
+    
     if not data.proof and not data.id:
         response = {
             "Message": "POST requires a proof and an ID"
         }
         return jsonify(response), 400
-    # Run the proof of work algorithm to get the next proof
+    if self.valid_proof(last_block, proof):
+        response = {
+            "message": "New Block Forged"
+        }
+    else:
+        response = {
+            "message": "Invalid Proof"
+        }
+    return jsonify(response), 201
+    # return a message indicating success or failure
+    # if valid hash response is good:
+    # response = {
+    #     "message": "New Block Forged"
+    # }
+    # if hash is bad respond:
+    # response = {
+    #     "message": "Invalid proof"
+    # }
+    
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
